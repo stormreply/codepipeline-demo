@@ -1,0 +1,18 @@
+# local .terraform directories
+**/.terraform
+
+# terraform lockfile
+.terraform.lock.hcl
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# IDEA configurations
+.idea
+
+# Apple Desktop Services Store files
+.DS_Store
+
+# vi(m) swap files
+**/*.sw?

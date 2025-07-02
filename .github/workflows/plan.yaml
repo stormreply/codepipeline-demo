@@ -1,0 +1,13 @@
+name: Plan
+
+permissions:
+  contents: read
+  id-token: write
+
+on:
+  workflow_dispatch:
+
+jobs:
+  plan:
+    uses: stormreply/storm-library-for-terraform/.github/workflows/plan.yaml@main
+    secrets: inherit

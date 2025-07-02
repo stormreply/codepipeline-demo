@@ -1,0 +1,21 @@
+name: Apply
+
+permissions:
+  contents: read
+  id-token: write
+
+on:
+  workflow_dispatch:
+    # checkov:skip=CKV_GHA_7: "GitHub Actions workflow_dispatch inputs MUST be empty"
+    inputs:
+      expires_after:
+        type: string
+        required: false
+        default: "1 day"
+
+jobs:
+  apply:
+    uses: stormreply/storm-library-for-terraform/.github/workflows/apply.yaml@main
+    with:
+      expires_after: ${{ inputs.expires_after }}
+    secrets: inherit

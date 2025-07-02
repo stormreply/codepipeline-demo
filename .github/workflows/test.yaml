@@ -1,0 +1,13 @@
+name: Test
+
+permissions:
+  contents: read
+  id-token: write
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    uses: stormreply/storm-library-for-terraform/.github/workflows/test.yaml@main
+    secrets: inherit
