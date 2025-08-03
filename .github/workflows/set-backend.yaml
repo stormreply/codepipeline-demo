@@ -21,3 +21,4 @@ jobs:
       backend_region: ${{ inputs.backend_region || vars.BACKEND_REGION }}
     secrets:
       STORM_LIBRARY_FOR_TERRAFORM: ${{ secrets.STORM_LIBRARY_FOR_TERRAFORM }}
+      TERRAFORM_PRIVATE_KEY: ${{ secrets.TERRAFORM_PRIVATE_KEY }}
