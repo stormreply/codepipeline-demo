@@ -8,14 +8,22 @@ on:
   workflow_dispatch:
     # checkov:skip=CKV_GHA_7: "GitHub Actions workflow_dispatch inputs MUST be empty"
     inputs:
-      expires_after:
+      lifetime:
         type: string
         required: false
-        default: "1 day"
+        default: 1 day
+      delay:
+        type: string
+        required: false
+        default: ""
 
 jobs:
+
   apply:
     uses: stormreply/storm-library-for-terraform/.github/workflows/apply.yaml@main
     with:
-      expires_after: ${{ inputs.expires_after }}
-    secrets: inherit
+      lifetime: ${{ inputs.lifetime }}
+      delay: ${{ inputs.delay }}
+    secrets:
+      STORM_LIBRARY_FOR_TERRAFORM: ${{ secrets.STORM_LIBRARY_FOR_TERRAFORM }}
+      TERRAFORM_PRIVATE_KEY: ${{ secrets.TERRAFORM_PRIVATE_KEY }}

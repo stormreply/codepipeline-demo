@@ -10,4 +10,6 @@ on:
 jobs:
   plan:
     uses: stormreply/storm-library-for-terraform/.github/workflows/plan.yaml@main
-    secrets: inherit
+    secrets:
+      STORM_LIBRARY_FOR_TERRAFORM: ${{ secrets.STORM_LIBRARY_FOR_TERRAFORM }}
+      TERRAFORM_PRIVATE_KEY: ${{ secrets.TERRAFORM_PRIVATE_KEY }}

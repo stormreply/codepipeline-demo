@@ -5,24 +5,15 @@ permissions:
   id-token: write
 
 on:
-  workflow_call:
-    inputs:
-      environment:
-        type: string
-        required: false
-        default: ""
-      var_file:
-        type: string
-        required: false
-        default: ""
+
   workflow_dispatch:
     # checkov:skip=CKV_GHA_7: "GitHub Actions workflow_dispatch inputs MUST be empty"
     inputs:
-      environment:
+      delay:
         type: string
         required: false
         default: ""
-      var_file:
+      environment:
         type: string
         required: false
         default: ""
@@ -30,7 +21,9 @@ on:
 jobs:
   destroy:
     uses: stormreply/storm-library-for-terraform/.github/workflows/destroy.yaml@main
-    secrets: inherit
     with:
-      environment: ${{inputs.environment}}
-      var_file: ${{inputs.var_file}}
+      environment: ${{ inputs.environment }}
+      delay: ${{ inputs.delay }}
+    secrets:
+      STORM_LIBRARY_FOR_TERRAFORM: ${{ secrets.STORM_LIBRARY_FOR_TERRAFORM }}
+      TERRAFORM_PRIVATE_KEY: ${{ secrets.TERRAFORM_PRIVATE_KEY }}
