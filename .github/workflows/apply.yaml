@@ -11,7 +11,7 @@ on:
       lifetime:
         type: string
         required: false
-        default: 1 day
+        default: 1 hour
       delay:
         type: string
         required: false
