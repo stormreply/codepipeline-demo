@@ -4,7 +4,8 @@ locals {
 
     {
       for key, value in var._metadata :
-      "deployment-${replace(key, "_", "-")}" => value if value != "" && key != "deployment"
+      "deployment-${replace(key, "_", "-")}" => value
+      if value != "" && !contains(["catalog_id", "deployment", "short_name"], key)
     },
 
     var._metadata.ref_name != ""
