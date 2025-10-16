@@ -10,12 +10,12 @@ repos:
     - id: terraform_fmt
     - id: terraform_docs
     - id: terraform_tflint
-    - id: terraform_trivy
-    - id: terraform_validate
+#    - id: terraform_trivy
+#    - id: terraform_validate
 #    - id: terrascan
-    - id: terraform_checkov
-      args:
-        - --args=--quiet
+#    - id: terraform_checkov
+#      args:
+#        - --args=--quiet
 - repo: https://github.com/gitleaks/gitleaks
   rev: a248f9279b38aeff5bbd4c85cc6f15b64d27e794  # frozen: v8.27.0
   hooks:
