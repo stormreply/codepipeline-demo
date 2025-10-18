@@ -5,5 +5,5 @@ variable "github_owner" {
 
 variable "github_repo" {
   type    = string
-  default = "codepipeline-with-ecs-deployment"
+  default = "codepipeline-demo"
 }
