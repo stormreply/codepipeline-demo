@@ -133,3 +133,40 @@ resource "aws_iam_role_policy" "codepipeline_codebuild" {
     ]
   })
 }
+
+resource "aws_iam_role_policy" "codepipeline_ecs" {
+  name = "${local._name_tag}-codepipeline-ecs"
+  role = aws_iam_role.codepipeline.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "ecs:DescribeServices",
+          "ecs:DescribeTaskDefinition",
+          "ecs:DescribeTasks",
+          "ecs:ListTasks",
+          "ecs:RegisterTaskDefinition",
+          "ecs:UpdateService"
+        ]
+        Resource = "*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "iam:PassRole"
+        ]
+        Resource = "*"
+        Condition = {
+          StringEqualsIfExists = {
+            "iam:PassedToService" = [
+              "ecs-tasks.amazonaws.com"
+            ]
+          }
+        }
+      }
+    ]
+  })
+}
