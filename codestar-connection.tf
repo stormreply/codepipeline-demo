@@ -1,5 +1,5 @@
 resource "aws_codestarconnections_connection" "github" {
-  name          = "${local._name_tag}-github"
+  name          = "${local._metadata.short_name}-github"
   provider_type = "GitHub" # cf. https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codestarconnections_connection#provider_type-3
 }
 
