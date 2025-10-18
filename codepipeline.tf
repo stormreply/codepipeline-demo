@@ -1,5 +1,5 @@
 resource "aws_codepipeline" "pipeline" {
-  name     = "ecs-demo-pipeline"
+  name     = local._name_tag
   role_arn = aws_iam_role.codepipeline.arn
 
   artifact_store {
@@ -11,9 +11,9 @@ resource "aws_codepipeline" "pipeline" {
     name = "Source"
     action {
       name             = "Source"
-      category         = "Source"
-      owner            = "AWS"
-      provider         = "CodeStarSourceConnection"
+      category         = "Source"                   # cf. https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-properties-codepipeline-pipeline-actiontypeid.html#aws-properties-codepipeline-pipeline-actiontypeid-properties
+      owner            = "AWS"                      # cf. https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-action-artifacts.html
+      provider         = "CodeStarSourceConnection" # cf. https://docs.aws.amazon.com/codepipeline/latest/userguide/actions-valid-providers.html
       version          = "1"
       output_artifacts = ["source_output"]
 
@@ -42,6 +42,17 @@ resource "aws_codepipeline" "pipeline" {
   }
 
   stage {
+    name = "Approval"
+    action {
+      name     = "ManualApproval"
+      category = "Approval"
+      owner    = "AWS"
+      provider = "Manual"
+      version  = "1"
+    }
+  }
+
+  stage {
     name = "Deploy"
     action {
       name            = "Deploy"
@@ -54,7 +65,7 @@ resource "aws_codepipeline" "pipeline" {
       configuration = {
         ClusterName = aws_ecs_cluster.cluster.name
         ServiceName = aws_ecs_service.service.name
-        FileName    = "imagedefinitions.json"
+        FileName    = "imagedefinitions.json" # cf. https://docs.aws.amazon.com/codepipeline/latest/userguide/file-reference.html#pipelines-create-image-definitions
       }
     }
   }
@@ -63,7 +74,7 @@ resource "aws_codepipeline" "pipeline" {
 
 
 resource "aws_iam_role" "codepipeline" {
-  name = "codepipeline-role"
+  name = "${local._name_tag}-codepipeline"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
@@ -74,7 +85,7 @@ resource "aws_iam_role" "codepipeline" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "codepipeline_attach" {
+resource "aws_iam_role_policy_attachment" "aws_codepipeline_fullaccess" {
   role       = aws_iam_role.codepipeline.name
   policy_arn = "arn:aws:iam::aws:policy/AWSCodePipeline_FullAccess"
 }

@@ -1,11 +1,11 @@
 resource "aws_codestarconnections_connection" "github" {
-  name          = "github-connection"
-  provider_type = "GitHub"
+  name          = "${local._name_tag}-github"
+  provider_type = "GitHub" # cf. https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codestarconnections_connection#provider_type-3
 }
 
 # Add the necessary IAM permissions for CodePipeline to use CodeStar Connections
 resource "aws_iam_role_policy" "codepipeline_codestar" {
-  name = "codepipeline-codestar-policy"
+  name = "${local._name_tag}-codestar"
   role = aws_iam_role.codepipeline.id
 
   policy = jsonencode({
