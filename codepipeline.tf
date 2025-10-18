@@ -171,3 +171,31 @@ resource "aws_iam_role_policy" "codepipeline_ecs" {
     ]
   })
 }
+
+resource "aws_iam_role_policy" "codepipeline_ecr" {
+  name = "${local._name_tag}-codepipeline-ecr"
+  role = aws_iam_role.codepipeline.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "ecr:GetAuthorizationToken"
+        ]
+        Resource = "*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage",
+          "ecr:DescribeImages"
+        ]
+        Resource = "arn:aws:ecr:${local.region}:${local.account_id}:repository/${local.ecr_repository_name}"
+      }
+    ]
+  })
+}
