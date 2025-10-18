@@ -49,3 +49,26 @@ resource "aws_iam_role_policy_attachment" "aws_codebuild_developer_access" {
   role       = aws_iam_role.codebuild.name
   policy_arn = "arn:aws:iam::aws:policy/AWSCodeBuildDeveloperAccess"
 }
+
+resource "aws_iam_role_policy" "codebuild_logs" {
+  name = "${local._name_tag}-codebuild-logs"
+  role = aws_iam_role.codebuild.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ]
+        Resource = [
+          "arn:aws:logs:${local.region}:${local.account_id}:log-group:/aws/codebuild/${local._name_tag}",
+          "arn:aws:logs:${local.region}:${local.account_id}:log-group:/aws/codebuild/${local._name_tag}:*"
+        ]
+      }
+    ]
+  })
+}
