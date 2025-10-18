@@ -89,3 +89,28 @@ resource "aws_iam_role_policy_attachment" "aws_codepipeline_fullaccess" {
   role       = aws_iam_role.codepipeline.name
   policy_arn = "arn:aws:iam::aws:policy/AWSCodePipeline_FullAccess"
 }
+
+resource "aws_iam_role_policy" "codepipeline_s3_artifacts" {
+  name = "${local._name_tag}-codepipeline-s3-artifacts"
+  role = aws_iam_role.codepipeline.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:GetObject",
+          "s3:GetObjectVersion",
+          "s3:PutObject",
+          "s3:GetBucketLocation",
+          "s3:ListBucket"
+        ]
+        Resource = [
+          aws_s3_bucket.artifacts.arn,
+          "${aws_s3_bucket.artifacts.arn}/*"
+        ]
+      }
+    ]
+  })
+}
