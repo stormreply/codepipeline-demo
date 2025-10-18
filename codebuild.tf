@@ -72,3 +72,26 @@ resource "aws_iam_role_policy" "codebuild_logs" {
     ]
   })
 }
+
+resource "aws_iam_role_policy" "codebuild_s3_artifacts" {
+  name = "${local._name_tag}-codebuild-s3-artifacts"
+  role = aws_iam_role.codebuild.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:GetObject",
+          "s3:GetObjectVersion",
+          "s3:PutObject"
+        ]
+        Resource = [
+          aws_s3_bucket.artifacts.arn,
+          "${aws_s3_bucket.artifacts.arn}/*"
+        ]
+      }
+    ]
+  })
+}
