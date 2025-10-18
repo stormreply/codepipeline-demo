@@ -149,6 +149,7 @@ resource "aws_iam_role_policy" "codepipeline_ecs" {
           "ecs:DescribeTasks",
           "ecs:ListTasks",
           "ecs:RegisterTaskDefinition",
+          "ecs:TagResource",
           "ecs:UpdateService"
         ]
         Resource = "*"
