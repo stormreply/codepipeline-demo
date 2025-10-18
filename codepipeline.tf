@@ -114,3 +114,22 @@ resource "aws_iam_role_policy" "codepipeline_s3_artifacts" {
     ]
   })
 }
+
+resource "aws_iam_role_policy" "codepipeline_codebuild" {
+  name = "${local._name_tag}-codepipeline-codebuild"
+  role = aws_iam_role.codepipeline.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "codebuild:BatchGetBuilds",
+          "codebuild:StartBuild"
+        ]
+        Resource = aws_codebuild_project.build.arn
+      }
+    ]
+  })
+}
