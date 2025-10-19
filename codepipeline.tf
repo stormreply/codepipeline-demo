@@ -7,6 +7,22 @@ resource "aws_codepipeline" "pipeline" {
     type     = "S3"
   }
 
+  # Trigger configuration for automated pipeline execution
+  # See: https://docs.aws.amazon.com/codepipeline/latest/userguide/pipelines-triggers.html
+  trigger {
+    provider_type = "CodeStarSourceConnection"
+
+    git_configuration {
+      source_action_name = "Source"
+
+      push {
+        branches {
+          includes = ["main"]
+        }
+      }
+    }
+  }
+
   stage {
     name = "Source"
     action {
