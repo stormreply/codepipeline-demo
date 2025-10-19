@@ -1,5 +1,5 @@
 resource "aws_lb" "app" {
-  name               = local._name_tag
+  name               = local._metadata.short_name
   internal           = false
   load_balancer_type = "application"
   subnets            = [for subnet in aws_default_subnet.default : subnet.id]
