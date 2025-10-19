@@ -14,7 +14,7 @@ def hello():
     <!DOCTYPE html>
     <html>
     <head>
-        <title>Demo App</title>
+        <title>Codepipeline Demo</title>
         <style>
             body {{
                 font-family: Arial, sans-serif;
@@ -55,7 +55,6 @@ def hello():
             <div class="info">
                 <p><span class="label">Container IP:</span> <span class="value">{ip_address}</span></p>
                 <p><span class="label">Commit SHA:</span> <span class="value">{commit_sha}</span></p>
-                <p><span class="label">Hostname:</span> <span class="value">{hostname}</span></p>
             </div>
         </div>
     </body>
