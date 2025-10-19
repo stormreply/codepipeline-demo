@@ -1,6 +1,7 @@
 resource "aws_codepipeline" "pipeline" {
-  name     = local._name_tag
-  role_arn = aws_iam_role.codepipeline.arn
+  name          = local._name_tag
+  role_arn      = aws_iam_role.codepipeline.arn
+  pipeline_type = "V2"
 
   artifact_store {
     location = aws_s3_bucket.artifacts.bucket
