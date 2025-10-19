@@ -32,9 +32,8 @@ resource "aws_codebuild_project" "build" {
   source {
     # source code settings are specified in the source action of the pipeline in CodePipeline
     # cf. https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-properties-codebuild-project-source.html
-    type = "CODEPIPELINE"
-    # Use buildspec.yml from the source repository instead of embedding it
-    # This allows buildspec changes without terraform apply
+    type      = "CODEPIPELINE"
+    buildspec = "buildspec.yml"
   }
 }
 
