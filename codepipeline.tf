@@ -192,7 +192,10 @@ resource "aws_iam_role_policy" "codepipeline_ecr" {
           "ecr:BatchCheckLayerAvailability",
           "ecr:GetDownloadUrlForLayer",
           "ecr:BatchGetImage",
-          "ecr:DescribeImages"
+          "ecr:DescribeImages",
+          "ecr:ListImages",
+          "ecr:GetRepositoryPolicy",
+          "ecr:DescribeRepositories"
         ]
         Resource = "arn:aws:ecr:${local.region}:${local.account_id}:repository/${local.ecr_repository_name}"
       }
