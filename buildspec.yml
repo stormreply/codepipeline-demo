@@ -5,8 +5,33 @@ env:
     IMAGE_TAG: latest
 
 phases:
+  install:
+    commands:
+      - echo "Checking if app folder has changes..."
+      - |
+        # Get the list of changed files
+        if [ -z "$CODEBUILD_WEBHOOK_PREV_COMMIT" ]; then
+          echo "No previous commit found, building anyway (first build or manual trigger)"
+          export SHOULD_BUILD=true
+        else
+          # Check if any files in app/ folder changed
+          CHANGED_FILES=$(git diff --name-only $CODEBUILD_WEBHOOK_PREV_COMMIT $CODEBUILD_RESOLVED_SOURCE_VERSION || echo "app/")
+          echo "Changed files: $CHANGED_FILES"
+          if echo "$CHANGED_FILES" | grep -q "^app/"; then
+            echo "Changes detected in app/ folder, proceeding with build"
+            export SHOULD_BUILD=true
+          else
+            echo "No changes in app/ folder, skipping build"
+            export SHOULD_BUILD=false
+          fi
+        fi
   pre_build:
     commands:
+      - |
+        if [ "$SHOULD_BUILD" = "false" ]; then
+          echo "Skipping build phase as no app changes detected"
+          exit 0
+        fi
       - echo Logging in to Amazon ECR...
       - |
         aws ecr get-login-password \
@@ -17,6 +42,11 @@ phases:
           $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
   build:
     commands:
+      - |
+        if [ "$SHOULD_BUILD" = "false" ]; then
+          echo "Skipping build phase"
+          exit 0
+        fi
       - echo Building Docker image...
       - |
         docker build \
@@ -28,6 +58,11 @@ phases:
           $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG
   post_build:
     commands:
+      - |
+        if [ "$SHOULD_BUILD" = "false" ]; then
+          echo "Skipping post_build phase"
+          exit 0
+        fi
       - echo Writing imagedefinitions.json file...
       - |
         printf '[

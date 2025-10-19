@@ -21,6 +21,7 @@ resource "aws_codepipeline" "pipeline" {
         ConnectionArn    = aws_codestarconnections_connection.github.arn
         FullRepositoryId = "${var.github_owner}/${var.github_repo}"
         BranchName       = "main"
+        DetectChanges    = "false" # Disable automatic polling, use EventBridge instead
       }
     }
   }
