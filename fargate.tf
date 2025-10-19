@@ -8,6 +8,7 @@ resource "aws_ecs_service" "service" {
   network_configuration {
     subnets          = [for subnet in aws_default_subnet.default : subnet.id]
     assign_public_ip = true
+    security_groups  = [aws_security_group.ecs_tasks.id]
   }
 
   load_balancer {

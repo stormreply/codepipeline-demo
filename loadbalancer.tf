@@ -3,6 +3,7 @@ resource "aws_lb" "app" {
   internal           = false
   load_balancer_type = "application"
   subnets            = [for subnet in aws_default_subnet.default : subnet.id]
+  security_groups    = [aws_security_group.alb.id]
 }
 
 resource "aws_lb_target_group" "app" {
