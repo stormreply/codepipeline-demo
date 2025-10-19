@@ -37,7 +37,7 @@ def hello():
             .info {{
                 background-color: #f0f7ff;
                 padding: 15px;
-                border-left: 4px solid #0066cc;
+                border-left: 20px solid #0066cc;
                 margin: 15px 0;
             }}
             .label {{
