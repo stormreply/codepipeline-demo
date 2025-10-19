@@ -8,7 +8,7 @@ resource "aws_cloudwatch_event_rule" "codepipeline_trigger" {
     detail-type = ["CodeConnections Source Action State Change"]
     resources   = [aws_codestarconnections_connection.github.arn]
     detail = {
-      event = ["referenceCreated", "referenceUpdated"]
+      event         = ["referenceCreated", "referenceUpdated"]
       referenceName = ["main"]
     }
   })
