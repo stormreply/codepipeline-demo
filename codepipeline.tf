@@ -20,6 +20,9 @@ resource "aws_codepipeline" "pipeline" {
         branches {
           includes = ["main"]
         }
+        file_paths {
+          includes = ["app/**"]
+        }
       }
     }
   }
