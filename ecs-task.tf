@@ -7,7 +7,7 @@ resource "aws_ecs_task_definition" "task" {
 
   container_definitions = jsonencode([
     {
-      name  = "app"
+      name  = local._name_tag # "app"
       image = "${aws_ecr_repository.repo.repository_url}:latest"
       portMappings = [
         {
@@ -40,7 +40,7 @@ data "aws_iam_policy_document" "ecs_task_exec" {
 }
 
 resource "aws_iam_role" "ecs_task_exec" {
-  name = "ecs-task-execution-role"
+  name = local._name_tag # "ecs-task-execution-role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{

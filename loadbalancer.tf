@@ -1,5 +1,5 @@
 resource "aws_lb" "app" {
-  name               = "ecs-demo-alb"
+  name               = local._name_tag
   internal           = false
   load_balancer_type = "application"
   subnets            = [for subnet in aws_default_subnet.default : subnet.id]
@@ -7,7 +7,7 @@ resource "aws_lb" "app" {
 }
 
 resource "aws_lb_target_group" "app" {
-  name        = "ecs-demo-tg"
+  name        = local._metadata.short_name
   port        = 3000
   protocol    = "HTTP"
   vpc_id      = aws_default_vpc.default.id
