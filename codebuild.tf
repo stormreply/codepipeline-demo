@@ -1,6 +1,7 @@
 resource "aws_codebuild_project" "build" {
   name         = local._name_tag
   service_role = aws_iam_role.codebuild.arn
+  description  = "Build project using buildspec.yml from source repository"
 
   artifacts {
     type = "CODEPIPELINE" # | NO_ARTIFACTS | S3, cf. https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-properties-codebuild-project-artifacts.html
