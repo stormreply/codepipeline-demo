@@ -24,7 +24,6 @@ phases:
             echo "No changes in app/ folder, skipping build"
             export SHOULD_BUILD=false
           fi
-          SHOULD_BUILD=true
         fi
   pre_build:
     commands:
