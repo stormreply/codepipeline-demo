@@ -9,12 +9,13 @@ def hello():
     hostname = socket.gethostname()
     ip_address = socket.gethostbyname(hostname)
     commit_sha = os.getenv('COMMIT_SHA', 'unknown')
+    app_name = os.getenv('APP_NAME', 'Demo Application')
 
     html = f"""
     <!DOCTYPE html>
     <html>
     <head>
-        <title>Codepipeline Demo</title>
+        <title>{app_name}</title>
         <style>
             body {{
                 font-family: Arial, sans-serif;
@@ -51,7 +52,7 @@ def hello():
     </head>
     <body>
         <div class="container">
-            <h1>Demo Application</h1>
+            <h1>{app_name}</h1>
             <div class="info">
                 <p><span class="label">Container IP:</span> <span class="value">{ip_address}</span></p>
                 <p><span class="label">Commit SHA:</span> <span class="value">{commit_sha}</span></p>

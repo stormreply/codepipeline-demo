@@ -23,6 +23,10 @@ resource "aws_codebuild_project" "build" {
       name  = "ECR_REPO_NAME"
       value = local.ecr_repository_name
     }
+    environment_variable {
+      name  = "APP_NAME"
+      value = local._name_tag
+    }
   }
 
   source {

@@ -51,6 +51,7 @@ phases:
       - |
         docker build \
           --build-arg COMMIT_SHA=$CODEBUILD_RESOLVED_SOURCE_VERSION \
+          --build-arg APP_NAME=$APP_NAME \
           -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG \
           app
       - |
