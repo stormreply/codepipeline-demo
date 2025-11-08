@@ -41,7 +41,6 @@ variable "_metadata" {
 
 output "_name_tag" {
   value = local._name_tag
-
 }
 
 output "_metadata" {

@@ -20,7 +20,7 @@ on:
 
 jobs:
   destroy:
-    uses: stormreply/storm-library-for-terraform/.github/workflows/destroy.yaml@main
+    uses: stormreply/slt-workflows/.github/workflows/destroy.yaml@main
     with:
       environment: ${{ inputs.environment }}
       delay: ${{ inputs.delay }}
