@@ -1,5 +1,5 @@
 resource "aws_security_group" "alb" {
-  name        = "${local._name_tag}-alb-sg"
+  name        = "${local._deployment}-alb-sg"
   description = "Security group for Application Load Balancer"
   vpc_id      = aws_default_vpc.default.id
 
@@ -21,7 +21,7 @@ resource "aws_security_group" "alb" {
 }
 
 resource "aws_security_group" "ecs_tasks" {
-  name        = "${local._name_tag}-ecs-tasks-sg"
+  name        = "${local._deployment}-ecs-tasks-sg"
   description = "Security group for ECS tasks"
   vpc_id      = aws_default_vpc.default.id
 

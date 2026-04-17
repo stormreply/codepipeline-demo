@@ -1,5 +1,5 @@
 resource "aws_codebuild_project" "build" {
-  name         = local._name_tag
+  name         = local._deployment
   service_role = aws_iam_role.codebuild.arn
   description  = "Build project using buildspec.yml from source repository"
 
@@ -26,7 +26,7 @@ resource "aws_codebuild_project" "build" {
     }
     environment_variable {
       name  = "APP_NAME"
-      value = local._name_tag
+      value = local._deployment
     }
   }
 
@@ -39,7 +39,7 @@ resource "aws_codebuild_project" "build" {
 }
 
 resource "aws_iam_role" "codebuild" {
-  name = "${local._name_tag}-codebuild"
+  name = "${local._deployment}-codebuild"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
@@ -56,7 +56,7 @@ resource "aws_iam_role_policy_attachment" "aws_codebuild_developer_access" {
 }
 
 resource "aws_iam_role_policy" "codebuild_logs" {
-  name = "${local._name_tag}-codebuild-logs"
+  name = "${local._deployment}-codebuild-logs"
   role = aws_iam_role.codebuild.id
 
   policy = jsonencode({
@@ -70,8 +70,8 @@ resource "aws_iam_role_policy" "codebuild_logs" {
           "logs:PutLogEvents"
         ]
         Resource = [
-          "arn:aws:logs:${local.region}:${local.account_id}:log-group:/aws/codebuild/${local._name_tag}",
-          "arn:aws:logs:${local.region}:${local.account_id}:log-group:/aws/codebuild/${local._name_tag}:*"
+          "arn:aws:logs:${local.region}:${local.account_id}:log-group:/aws/codebuild/${local._deployment}",
+          "arn:aws:logs:${local.region}:${local.account_id}:log-group:/aws/codebuild/${local._deployment}:*"
         ]
       }
     ]
@@ -79,7 +79,7 @@ resource "aws_iam_role_policy" "codebuild_logs" {
 }
 
 resource "aws_iam_role_policy" "codebuild_s3_artifacts" {
-  name = "${local._name_tag}-codebuild-s3-artifacts"
+  name = "${local._deployment}-codebuild-s3-artifacts"
   role = aws_iam_role.codebuild.id
 
   policy = jsonencode({
@@ -102,7 +102,7 @@ resource "aws_iam_role_policy" "codebuild_s3_artifacts" {
 }
 
 resource "aws_iam_role_policy" "codebuild_ecr" {
-  name = "${local._name_tag}-codebuild-ecr"
+  name = "${local._deployment}-codebuild-ecr"
   role = aws_iam_role.codebuild.id
 
   policy = jsonencode({

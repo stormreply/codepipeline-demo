@@ -5,7 +5,7 @@ resource "aws_codestarconnections_connection" "github" {
 
 # Add the necessary IAM permissions for CodePipeline to use CodeStar Connections
 resource "aws_iam_role_policy" "codepipeline_codestar" {
-  name = "${local._name_tag}-codestar"
+  name = "${local._deployment}-codestar"
   role = aws_iam_role.codepipeline.id
 
   policy = jsonencode({

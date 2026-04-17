@@ -1,5 +1,5 @@
 resource "aws_codepipeline" "pipeline" {
-  name          = local._name_tag
+  name          = local._deployment
   role_arn      = aws_iam_role.codepipeline.arn
   pipeline_type = "V2"
 
@@ -95,7 +95,7 @@ resource "aws_codepipeline" "pipeline" {
 
 
 resource "aws_iam_role" "codepipeline" {
-  name = "${local._name_tag}-codepipeline"
+  name = "${local._deployment}-codepipeline"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
@@ -112,7 +112,7 @@ resource "aws_iam_role_policy_attachment" "aws_codepipeline_fullaccess" {
 }
 
 resource "aws_iam_role_policy" "codepipeline_s3_artifacts" {
-  name = "${local._name_tag}-codepipeline-s3-artifacts"
+  name = "${local._deployment}-codepipeline-s3-artifacts"
   role = aws_iam_role.codepipeline.id
 
   policy = jsonencode({
@@ -137,7 +137,7 @@ resource "aws_iam_role_policy" "codepipeline_s3_artifacts" {
 }
 
 resource "aws_iam_role_policy" "codepipeline_codebuild" {
-  name = "${local._name_tag}-codepipeline-codebuild"
+  name = "${local._deployment}-codepipeline-codebuild"
   role = aws_iam_role.codepipeline.id
 
   policy = jsonencode({
@@ -156,7 +156,7 @@ resource "aws_iam_role_policy" "codepipeline_codebuild" {
 }
 
 resource "aws_iam_role_policy" "codepipeline_ecs" {
-  name = "${local._name_tag}-codepipeline-ecs"
+  name = "${local._deployment}-codepipeline-ecs"
   role = aws_iam_role.codepipeline.id
 
   policy = jsonencode({
@@ -194,7 +194,7 @@ resource "aws_iam_role_policy" "codepipeline_ecs" {
 }
 
 resource "aws_iam_role_policy" "codepipeline_ecr" {
-  name = "${local._name_tag}-codepipeline-ecr"
+  name = "${local._deployment}-codepipeline-ecr"
   role = aws_iam_role.codepipeline.id
 
   policy = jsonencode({
